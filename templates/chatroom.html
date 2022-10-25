@@ -76,8 +76,9 @@
         const payload = JSON.parse(event.data);
         createNewMessage(payload);
     });
-    chatSocket.addEventListener("close", event => {
-        console.log("Socket closed");
+
+    chatSocket.addEventListener("close", () => {
+        console.error("WebSocket closed...")
     });
 </script>
 </body>
