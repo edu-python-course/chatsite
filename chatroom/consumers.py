@@ -5,36 +5,36 @@ Chatroom application consumer
 
 import json
 
-from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 
-class ChatRoomConsumer(WebsocketConsumer):
+class ChatRoomConsumer(AsyncWebsocketConsumer):
     """Chat room websocket consumer implementation"""
 
-    def connect(self):
+    async def connect(self):
         self.room_id = self.scope["url_route"]["kwargs"]["room_id"]
         self.room_group_name = "chat_%s" % self.room_id
 
-        async_to_sync(self.channel_layer.group_add)(
+        await self.channel_layer.group_add(
             self.room_group_name, self.channel_name
         )
 
-        self.accept()
+        await self.accept()
 
-    def disconnect(self, code):
-        async_to_sync(self.channel_layer.group_discard)(
+    async def disconnect(self, code):
+        await self.channel_layer.group_discard(
             self.room_group_name, self.channel_name
         )
 
-    def receive(self, text_data=None, bytes_data=None):
+    async def receive(self, text_data=None, bytes_data=None):
         payload = json.loads(text_data)
         message = payload["message"]
+        payload = {
+            "type": "chat_message",
+            "message": message
+        }
+        await self.channel_layer.group_send(self.room_group_name, payload)
 
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name, {"type": "chat_message", "message": message}
-        )
-
-    def chat_message(self, event):
+    async def chat_message(self, event):
         message = event["message"]
-        self.send(text_data=json.dumps({"message": message}))
+        await self.send(text_data=json.dumps({"message": message}))
