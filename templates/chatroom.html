@@ -69,11 +69,12 @@
         }
         messageInput.classList.remove("is-invalid");
         messageInput.value = "";
-        createNewMessage({"message": message})
+        chatSocket.send(JSON.stringify({"message": message}));
     });
 
     chatSocket.addEventListener("message", event => {
-        // TODO: implement this
+        const payload = JSON.parse(event.data);
+        createNewMessage(payload);
     });
     chatSocket.addEventListener("close", event => {
         console.log("Socket closed");
