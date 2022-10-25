@@ -1,0 +1,22 @@
+# ide configs
+/.vscode/
+/.idea/
+
+# python byte-compiled
+__pycache__
+
+# virtual environment
+/.venv/
+/.env/
+/venv/
+/env/
+
+# local databases
+pgdata/
+pgsql/
+*.sqlite3
+*.db
+
+# temporary files storage
+/temp/
+/tmp/
