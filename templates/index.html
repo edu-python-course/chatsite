@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chatsite</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.0/css/all.css">
+  <link rel="icon" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/svgs/regular/message.svg">
+</head>
+<body>
+
+<div class="container">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-6 vh-100">
+      <div class="v-100">
+        <h1 class="text-center fw-bold mb-3">Connect to a chat room</h1>
+        <form class="mx-1 mx-md-4" id="chatroom">
+          <div class="form-floating mb-3">
+            <input class="form-control" id="roomId" name="room_id" placeholder="Room Identifier" type="text">
+            <label class="form-label" for="roomId">Room Identifier</label>
+          </div>
+          <div class="d-flex justify-content-center mx-4 mb-3">
+            <input type="submit" class="btn btn-block btn-lg btn-primary" value="Connect">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    const form = document.getElementById("chatroom");
+    const roomId = document.getElementById("roomId");
+    form.addEventListener("submit", event => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        let room_id = roomId.value;
+        if (!room_id) {
+            roomId.classList.add("is-invalid");
+            return null;
+        }
+        window.location.pathname = `/${room_id}/`
+    });
+</script>
+</body>
+</html>
