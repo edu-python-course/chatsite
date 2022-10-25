@@ -21,6 +21,8 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.10"
 Django = "^4.1.2"
+channels = "^4.0.0"
+daphne = "^4.0.0"
 
 [tool.poetry.dev-dependencies]
 
