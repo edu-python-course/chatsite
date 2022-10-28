@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "channels",
+
+    "chatroom.apps.ChatRoomAppConfig",
 ]
 
 MIDDLEWARE = [
@@ -116,7 +118,11 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [
+                (os.environ.get("CHANNELS_DB_HOST"),
+                 os.environ.get("CHANNELS_DB_PORT")
+                 )
+            ],
         },
     },
 }

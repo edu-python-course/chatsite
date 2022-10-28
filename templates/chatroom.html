@@ -20,9 +20,15 @@
 <div class="container">
   <div class="row d-flex justify-content-center align-items-center">
     <div class="col vh-100">
-      <!-- TODO: replace placeholder -->
       <h1 class="text-center fw-bold mb-3">Room: {{ room_id }}</h1>
       <div class="h-75 scroll-area mb-3" id="messageContainer">
+        {% for object in object_list %}
+          <div class="card mb-1">
+            <div class="card-body">
+              {{ object.message }}
+            </div>
+          </div>
+        {% endfor %}
       </div>
       <div class="h-25" id="messageSender">
         <form id="messageForm">
@@ -40,6 +46,7 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 {{ room_id|json_script:"roomId" }}
+<!--suppress JSUnresolvedVariable -->
 <script type="text/javascript">
     const messageContainer = document.getElementById("messageContainer");
     const form = document.getElementById("messageForm");
@@ -50,6 +57,12 @@
     const createNewMessage = payload => {
         const newMessage = document.createElement("div");
         newMessage.classList.add("card", "mb-1");
+
+        const messageMeta = document.createElement("div");
+        messageMeta.classList.add("card-header", "text-end");
+        messageMeta.innerText = payload.created;
+        newMessage.appendChild(messageMeta);
+
         const messageData = document.createElement("div");
         messageData.classList.add("card-body");
         messageData.innerText = payload.message;
@@ -78,7 +91,7 @@
     });
 
     chatSocket.addEventListener("close", () => {
-        console.error("WebSocket closed...")
+        console.error("WebSocket closed")
     });
 </script>
 </body>

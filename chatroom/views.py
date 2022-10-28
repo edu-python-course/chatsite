@@ -7,6 +7,8 @@ from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import render
 
+from chatroom.models import ChatRoomMessageModel
+
 
 def index(request: HttpRequest) -> HttpResponse:
     """Index page view"""
@@ -17,4 +19,9 @@ def index(request: HttpRequest) -> HttpResponse:
 def chatroom(request: HttpRequest, room_id: str) -> HttpResponse:
     """Chat room view"""
 
-    return render(request, "chatroom.html", {"room_id": room_id})
+    ctx = {
+        "room_id": room_id,
+        "object_list": ChatRoomMessageModel.objects.filter(group_name=room_id),
+    }
+
+    return render(request, "chatroom.html", ctx)

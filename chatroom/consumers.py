@@ -5,7 +5,10 @@ Chatroom application consumer
 
 import json
 
+from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
+
+from chatroom.models import ChatRoomMessageModel
 
 
 class ChatRoomConsumer(AsyncWebsocketConsumer):
@@ -29,12 +32,24 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data=None, bytes_data=None):
         payload = json.loads(text_data)
         message = payload["message"]
+        message_object = await self.save_message(message)
         payload = {
             "type": "chat_message",
-            "message": message
+            "message": message_object.message,
+            "created": message_object.created_at.strftime("%b %d, %Y %H:%M")
         }
         await self.channel_layer.group_send(self.room_group_name, payload)
 
     async def chat_message(self, event):
         message = event["message"]
-        await self.send(text_data=json.dumps({"message": message}))
+        await self.send(text_data=json.dumps(event))
+
+    @database_sync_to_async
+    def save_message(self, message):
+        chat_room_message = ChatRoomMessageModel(
+            group_name=self.room_id,
+            message=message
+        )
+        chat_room_message.save()
+
+        return chat_room_message
