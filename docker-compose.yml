@@ -8,15 +8,8 @@ services:
     container_name: chatsite_web
     build:
       dockerfile: ./Dockerfile
-    environment:
-      DJANGO_SECRET_KEY: django-secret-key
-      CHATSITE_DB: chatsite
-      CHATSITE_DB_USER: chatsite
-      CHATSITE_DB_PASSWORD: chatsite
-      CHATSITE_DB_HOST: chatsite_db
-      CHATSITE_DB_PORT: 5432
-      CHANNELS_DB_HOST: channels_db
-      CHANNELS_DB_PORT: 6379
+    env_file:
+      - .env
     networks:
       - chatsite_network
     ports:
