@@ -1,0 +1,35 @@
+# docker compose configuration
+
+version: "3.9"
+
+services:
+  chatsite_db:
+    image: postgres
+    container_name: chatsite_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    networks:
+      - chatsite_network
+    ports:
+      - "5432:5432"
+    volumes:
+      - chatsite_db:/var/lib/postgresql/data/pgdata
+      - ./init/db.sql:/docker-entrypoint-initdb.d/init_db.sql
+
+  channels_db:
+    image: redis
+    container_name: channels_db
+    restart: unless-stopped
+    networks:
+      - chatsite_network
+    ports:
+      - "6379:6379"
+
+networks:
+  chatsite_network:
+    driver: bridge
+volumes:
+  chatsite_db:

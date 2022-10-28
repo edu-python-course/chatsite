@@ -1,0 +1,2 @@
+CREATE USER chatsite WITH PASSWORD 'chatsite' CREATEDB;
+CREATE DATABASE chatsite OWNER chatsite;
