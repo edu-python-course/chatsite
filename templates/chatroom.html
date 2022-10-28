@@ -24,6 +24,9 @@
       <div class="h-75 scroll-area mb-3" id="messageContainer">
         {% for object in object_list %}
           <div class="card mb-1">
+            <div class="card-header text-end">
+              {{ object.created_at }}
+            </div>
             <div class="card-body">
               {{ object.message }}
             </div>
