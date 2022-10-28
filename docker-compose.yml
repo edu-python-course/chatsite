@@ -3,6 +3,30 @@
 version: "3.9"
 
 services:
+  web:
+    image: shorodilov/chatsite
+    container_name: chatsite_web
+    build:
+      dockerfile: ./Dockerfile
+    environment:
+      DJANGO_SECRET_KEY: django-secret-key
+      CHATSITE_DB: chatsite
+      CHATSITE_DB_USER: chatsite
+      CHATSITE_DB_PASSWORD: chatsite
+      CHATSITE_DB_HOST: chatsite_db
+      CHATSITE_DB_PORT: 5432
+      CHANNELS_DB_HOST: channels_db
+      CHANNELS_DB_PORT: 6379
+    networks:
+      - chatsite_network
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - chatsite_db
+      - channels_db
+
   chatsite_db:
     image: postgres
     container_name: chatsite_db

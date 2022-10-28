@@ -20,3 +20,6 @@ pgsql/
 # temporary files storage
 /temp/
 /tmp/
+
+# master env settings file
+.env

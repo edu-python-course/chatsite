@@ -91,3 +91,13 @@ Variables table
 |                       | Here is a good service to get it:                   |
 |                       | https://djecrety.ir/                                |
 +-----------------------+-----------------------------------------------------+
+
+Run with Docker Compose
+=======================
+
+Create ``.env`` file to run application in a container. Use ``.env.sample``
+as a reference.
+
+.. code-block::
+
+    docker-compose up --build
